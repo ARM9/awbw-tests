@@ -2,7 +2,8 @@ import {login, register, getMapJson, getMapCsv, convertJsonToCsv, createMap, upl
 import init from './init.mjs';
 import fs from 'fs';
 
-let login_cookies = init();
+let host = process.argv[2] || process.env.AWBW_URL || 'http://awbw.test';
+let login_cookies = await init({host});
 //console.log(login_cookies);
 
 const PASSED = "\x1b[32mPASSED\x1b[39m",

@@ -1,6 +1,6 @@
 import {JSDOM} from 'jsdom';
 
-let awbw_url = 'http://localhost';
+let awbw_url = process.env.AWBW_URL || 'http://awbw.test';
 
 let Cookie = 'PHPSESSID=8134197c58561a896919b161c6311318';
 let headers = {
