@@ -7,14 +7,9 @@
 #### Running tests
 Run `npm test`, default endpoint is `http://awbw.test`
 
-Test against a different host by setting `AWBW_URL` in your env, or pass the
-URL as an argument.
+Additional settings can be set with environment variables:
 
-`AWBW_URL='http://awbw.test' npm test`
-
-`npm test http://awbw.test`
-
-The second form might change.
+`AWBW_URL='http://localhost AWBW_USER=test AWBW_PASS=test npm test`
 
 ----
 todo use a real testing framework

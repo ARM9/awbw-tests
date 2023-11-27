@@ -2,8 +2,10 @@ import {login, register, getMapJson, getMapCsv, convertJsonToCsv, createMap, upl
 import init from './init.mjs';
 import fs from 'fs';
 
-let host = process.argv[2] || process.env.AWBW_URL || 'http://awbw.test';
-let login_cookies = await init({host});
+let host = process.argv[2] || process.env.AWBW_URL || 'http://awbw.test',
+    username = process.env.AWBW_USER || 'test',
+    password = process.env.AWBW_PASS || 'test';
+let login_cookies = await init({username, password, host});
 //console.log(login_cookies);
 
 const PASSED = "\x1b[32mPASSED\x1b[39m",
@@ -13,6 +15,8 @@ const maps_dir = './maps/';
 let map_files = fs.readdirSync(maps_dir).filter(f => !f.match('~')),
     valid = map_files.filter(f => f.match(/^valid/)),
     invalid = map_files.filter(f => f.match(/^invalid/));
+
+const DELAY = process.env.DELAY || 1000;
 
 console.log('\n---- Testing invalid maps ----');
 await testUploadInvalid(invalid);
@@ -35,6 +39,7 @@ function readCsv (fname) {
 
 async function testUploadInvalid (maps) {
     for (let i = 0; i < maps.length; i++) {
+        await sleep(DELAY);
         console.log();
         const fname = maps[i],
               csv = readCsv(fname),
@@ -59,6 +64,7 @@ async function testUploadValid (maps) {
     let map_id = await createMap('valid test', 5, 5);
 
     for (let i = 0; i < maps.length; i++) {
+        await sleep(DELAY);
         console.log();
         const fname = maps[i],
               csv = readCsv(fname),
@@ -93,6 +99,9 @@ async function testExportJsonEqualsCsv (id) {
     console.log(id, csv === to_csv);
 }
 
+async function sleep (ms) {
+    return new Promise(r => setTimeout(r, ms));
+}
 
 process.exit();
 
